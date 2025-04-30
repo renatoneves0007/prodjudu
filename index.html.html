@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Seleção de Equipe</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f0f4f8;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 700px;
+      margin: auto;
+      text-align: center;
+    }
+    h1 {
+      color: #2c3e50;
+      margin-bottom: 30px;
+    }
+    .team-btn {
+      display: inline-block;
+      margin: 10px;
+      padding: 15px 25px;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .team-btn:hover {
+      background-color: #2980b9;
+    }
+    .card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      padding: 20px;
+      margin: 20px 0;
+    }
+    .btn {
+      padding: 10px 20px;
+      background: #3498db;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      display: inline-block;
+    }
+    #documentos {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container" id="selecao">
+    <h1>De qual equipe você faz parte?</h1>
+    <div>
+      <!-- Botões das equipes -->
+      <button class="team-btn" onclick="selecionarEquipe(1)">Equipe 1</button>
+      <button class="team-btn" onclick="selecionarEquipe(2)">Equipe 2</button>
+      <button class="team-btn" onclick="selecionarEquipe(3)">Equipe 3</button>
+      <button class="team-btn" onclick="selecionarEquipe(4)">Equipe 4</button>
+      <button class="team-btn" onclick="selecionarEquipe(5)">Equipe 5</button>
+      <button class="team-btn" onclick="selecionarEquipe(6)">Equipe 6</button>
+      <button class="team-btn" onclick="selecionarEquipe(7)">Equipe 7</button>
+      <button class="team-btn" onclick="selecionarEquipe(8)">Equipe 8</button>
+      <button class="team-btn" onclick="selecionarEquipe(9)">Equipe 9</button>
+      <button class="team-btn" onclick="selecionarEquipe(10)">Equipe 10</button>
+    </div>
+  </div>
+
+  <div class="container" id="documentos">
+    <h1>Documentos do Processo - <span id="equipeNome"></span></h1>
+
+    <div class="card">
+      <h2>📄 Petição</h2>
+      <p>Arquivo já pode ter sido anexado. Deseja enviar novo arquivo?</p>
+      <a id="linkPeticao" class="btn" target="_blank">Acessar pasta da Petição</a>
+    </div>
+
+    <div class="card">
+      <h2>📝 Contestação</h2>
+      <p>Arquivo já pode ter sido anexado. Deseja enviar novo arquivo?</p>
+      <a id="linkContestacao" class="btn" target="_blank">Acessar pasta da Contestação</a>
+    </div>
+
+    <div class="card">
+      <h2>⚖️ Sentença</h2>
+      <p>Arquivo já pode ter sido anexado. Deseja enviar novo arquivo?</p>
+      <a id="linkSentenca" class="btn" target="_blank">Acessar pasta da Sentença</a>
+    </div>
+  </div>
+
+  <script>
+    const linksPorEquipe = {
+      1: {
+        peticao: "https://drive.google.com/drive/folders/1YugIMPyPTBkJA4HRcWCYUpg0IQu1lX8a?usp=sharing",
+        contestacao: "https://drive.google.com/drive/folders/1ReUcTY2atxdphIV7NqtTRBrU_x-37Nk0?usp=sharing",
+        sentenca: "https://drive.google.com/drive/folders/1gHAiNFemYDZDIGwJkIwTBOhingBxKKJE?usp=drive_link"
+      },
+      2: { peticao: "#", contestacao: "#", sentenca: "#" },
+      3: { peticao: "#", contestacao: "#", sentenca: "#" },
+      4: { peticao: "#", contestacao: "#", sentenca: "#" },
+      5: { peticao: "#", contestacao: "#", sentenca: "#" },
+      6: { peticao: "#", contestacao: "#", sentenca: "#" },
+      7: { peticao: "#", contestacao: "#", sentenca: "#" },
+      8: { peticao: "#", contestacao: "#", sentenca: "#" },
+      9: { peticao: "#", contestacao: "#", sentenca: "#" },
+      10: { peticao: "#", contestacao: "#", sentenca: "#" },
+    };
+
+    function selecionarEquipe(numero) {
+      const equipeLinks = linksPorEquipe[numero];
+      if (!equipeLinks) return;
+
+      document.getElementById('selecao').style.display = 'none';
+      document.getElementById('documentos').style.display = 'block';
+      document.getElementById('equipeNome').textContent = `Equipe ${numero}`;
+      document.getElementById('linkPeticao').href = equipeLinks.peticao;
+      document.getElementById('linkContestacao').href = equipeLinks.contestacao;
+      document.getElementById('linkSentenca').href = equipeLinks.sentenca;
+    }
+  </script>
+
+</body>
+</html>
