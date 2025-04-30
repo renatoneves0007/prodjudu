@@ -24,3 +24,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['arquivo']) && isset(
 } else {
   echo "Dados incompletos.";
 }
+ ?>
