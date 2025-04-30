@@ -3,38 +3,49 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Processo Judicial - Timeline</title>
-  <link rel="stylesheet" href="estilo.css" />
+  <title>Envio de Documento</title>
 </head>
 <body>
-  <div class="timeline-container">
-    <h2>Linha do Tempo do Processo Judicial</h2>
-    <div class="timeline">
+  <h2>Anexar Documento do Processo</h2>
 
-      <?php
-      $tipos = ['peticao' => 'Petição Inicial', 'contestacao' => 'Contestação', 'razoes' => 'Razões', 'contrarrazoes' => 'Contrarrazões', 'sentenca' => 'Sentença'];
-      foreach ($tipos as $key => $label): 
-        $filename = glob("uploads/{$key}-*.*");
-        $anexado = $filename ? date("d/m/Y H:i:s", filemtime($filename[0])) : null;
-      ?>
-      <div class="event">
-        <div class="event-content">
-          <h3><?= $label ?></h3>
-          <form method="POST" action="upload.php" enctype="multipart/form-data">
-            <input type="file" name="arquivo" required />
-            <input type="hidden" name="tipo" value="<?= $key ?>" />
-            <button type="submit">Anexar</button>
-          </form>
+  <?php
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['arquivo']) && isset($_POST['tipo'])) {
+      date_default_timezone_set('America/Sao_Paulo');
+      $tipo = $_POST['tipo'];
+      $arquivo = $_FILES['arquivo'];
 
-          <?php if ($anexado): ?>
-            <div class="timestamp">Anexado em: <?= $anexado ?></div>
-            <a class="download-link" href="<?= $filename[0] ?>" download>Baixar <?= $label ?></a>
-          <?php endif; ?>
-        </div>
-      </div>
-      <?php endforeach; ?>
+      $extensao = pathinfo($arquivo['name'], PATHINFO_EXTENSION);
+      $nomeFinal = "{$tipo}-" . time() . "." . $extensao;
 
-    </div>
-  </div>
+      $pasta = "uploads/";
+      if (!is_dir($pasta)) {
+        mkdir($pasta, 0777, true);
+      }
+
+      $caminho = $pasta . $nomeFinal;
+
+      if (move_uploaded_file($arquivo['tmp_name'], $caminho)) {
+        echo "<p style='color:green;'>Arquivo <strong>$nomeFinal</strong> enviado com sucesso em " . date('d/m/Y H:i:s') . ".</p>";
+        echo "<p><a href='$caminho' download>📥 Baixar arquivo enviado</a></p>";
+      } else {
+        echo "<p style='color:red;'>Erro ao enviar o arquivo.</p>";
+      }
+    }
+  ?>
+
+  <form method="POST" enctype="multipart/form-data">
+    <label for="tipo">Tipo de Documento:</label>
+    <select name="tipo" id="tipo" required>
+      <option value="">Selecione</option>
+      <option value="peticao">Petição Inicial</option>
+      <option value="contestacao">Contestação</option>
+      <option value="razoes">Razões</option>
+      <option value="contrarrazoes">Contrarrazões</option>
+      <option value="sentenca">Sentença</option>
+    </select><br><br>
+
+    <input type="file" name="arquivo" required /><br><br>
+    <button type="submit">Enviar</button>
+  </form>
 </body>
 </html>
