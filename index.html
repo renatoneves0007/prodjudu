@@ -7,7 +7,33 @@
 </head>
 <body>
   <h2>Anexar Documento do Processo</h2>
-  <form action="upload.php" method="POST" enctype="multipart/form-data">
+
+  <?php
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['arquivo']) && isset($_POST['tipo'])) {
+      date_default_timezone_set('America/Sao_Paulo');
+      $tipo = $_POST['tipo'];
+      $arquivo = $_FILES['arquivo'];
+
+      $extensao = pathinfo($arquivo['name'], PATHINFO_EXTENSION);
+      $nomeFinal = "{$tipo}-" . time() . "." . $extensao;
+
+      $pasta = "uploads/";
+      if (!is_dir($pasta)) {
+        mkdir($pasta, 0777, true);
+      }
+
+      $caminho = $pasta . $nomeFinal;
+
+      if (move_uploaded_file($arquivo['tmp_name'], $caminho)) {
+        echo "<p style='color:green;'>Arquivo <strong>$nomeFinal</strong> enviado com sucesso em " . date('d/m/Y H:i:s') . ".</p>";
+        echo "<p><a href='$caminho' download>📥 Baixar arquivo enviado</a></p>";
+      } else {
+        echo "<p style='color:red;'>Erro ao enviar o arquivo.</p>";
+      }
+    }
+  ?>
+
+  <form method="POST" enctype="multipart/form-data">
     <label for="tipo">Tipo de Documento:</label>
     <select name="tipo" id="tipo" required>
       <option value="">Selecione</option>
