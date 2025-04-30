@@ -1,90 +1,25 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Processo Judicial - Timeline</title>
-  <link rel="stylesheet" href="estilo.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Envio de Documento</title>
 </head>
 <body>
-  <div class="timeline-container">
-    <h2>Linha do Tempo do Processo Judicial</h2>
-    <div class="timeline">
+  <h2>Anexar Documento do Processo</h2>
+  <form action="upload.php" method="POST" enctype="multipart/form-data">
+    <label for="tipo">Tipo de Documento:</label>
+    <select name="tipo" id="tipo" required>
+      <option value="">Selecione</option>
+      <option value="peticao">Petição Inicial</option>
+      <option value="contestacao">Contestação</option>
+      <option value="razoes">Razões</option>
+      <option value="contrarrazoes">Contrarrazões</option>
+      <option value="sentenca">Sentença</option>
+    </select><br><br>
 
-      <div class="event">
-        <div class="event-content">
-          <h3>Petição Inicial</h3>
-          <input type="file" id="peticao">
-          <div id="timestamp-peticao" class="timestamp"></div>
-          <a id="download-peticao" class="download-link" href="#" download style="display:none">Baixar Petição Inicial</a>
-        </div>
-      </div>
-
-      <div class="event">
-        <div class="event-content">
-          <h3>Contestação</h3>
-          <input type="file" id="contestacao">
-          <div id="timestamp-contestacao" class="timestamp"></div>
-          <a id="download-contestacao" class="download-link" href="#" download style="display:none">Baixar Contestação</a>
-        </div>
-      </div>
-
-      <div class="event">
-        <div class="event-content">
-          <h3>Razões</h3>
-          <input type="file" id="razoes">
-          <div id="timestamp-razoes" class="timestamp"></div>
-          <a id="download-razoes" class="download-link" href="#" download style="display:none">Baixar Razões</a>
-        </div>
-      </div>
-
-      <div class="event">
-        <div class="event-content">
-          <h3>Contrarrazões</h3>
-          <input type="file" id="contrarrazoes">
-          <div id="timestamp-contrarrazoes" class="timestamp"></div>
-          <a id="download-contrarrazoes" class="download-link" href="#" download style="display:none">Baixar Contrarrazões</a>
-        </div>
-      </div>
-
-      <div class="event">
-        <div class="event-content">
-          <h3>Sentença</h3>
-          <input type="file" id="sentenca">
-          <div id="timestamp-sentenca" class="timestamp"></div>
-          <a id="download-sentenca" class="download-link" href="#" download style="display:none">Baixar Sentença</a>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <script>
-    function setTimestampAndDownload(inputId, timestampId, downloadId) {
-      const input = document.getElementById(inputId);
-      const timestamp = document.getElementById(timestampId);
-      const downloadLink = document.getElementById(downloadId);
-
-      input.addEventListener('change', () => {
-        const file = input.files[0];
-        if (file) {
-          const now = new Date();
-          const formatted = now.toLocaleString('pt-BR');
-          timestamp.textContent = `Anexado em: ${formatted}`;
-
-          const fileURL = URL.createObjectURL(file);
-          downloadLink.href = fileURL;
-          downloadLink.download = file.name;
-          downloadLink.style.display = 'inline-block';
-        }
-      });
-    }
-
-    setTimestampAndDownload('peticao', 'timestamp-peticao', 'download-peticao');
-    setTimestampAndDownload('contestacao', 'timestamp-contestacao', 'download-contestacao');
-    setTimestampAndDownload('razoes', 'timestamp-razoes', 'download-razoes');
-    setTimestampAndDownload('contrarrazoes', 'timestamp-contrarrazoes', 'download-contrarrazoes');
-    setTimestampAndDownload('sentenca', 'timestamp-sentenca', 'download-sentenca');
-  </script>
+    <input type="file" name="arquivo" required /><br><br>
+    <button type="submit">Enviar</button>
+  </form>
 </body>
 </html>
